@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import type { Task } from "../types";
-import { getTasks } from "../services/taskService";
+import type { Task } from "../../types";
+import { getTasks } from "../../services/taskService";
 
 interface UseTasksResult {
     tasks: Task[],

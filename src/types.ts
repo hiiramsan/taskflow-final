@@ -14,8 +14,8 @@ export interface Task {
   id: number
   title: string
   description?: string
-  status: 'TODO' | 'IN_PROGRESS' | 'COMPLETED'
-  priority: 'LOW' | 'MEDIUM' | 'HIGH'
+  status: 'TODO' | 'IN_PROGRESS' | 'DONE'
+  priority: 'LOW' | 'MED' | 'HIGH'
   projectId: number
   assigneeId?: number
   dueDate?: string
@@ -24,17 +24,15 @@ export interface Task {
 export interface NewTask {
   title: string
   description?: string
-  priority: 'LOW' | 'MEDIUM' | 'HIGH'
-  assignedId: number
-  dueDate: string
+  priority: 'LOW' | 'MED' | 'HIGH'
+  assigneeId?: number
+  dueDate?: string
 }
 
 export interface NewProject {
   name: string
   description?: string
 }
-
-
 
 export const API_URL =
   import.meta.env.VITE_API_URL ||

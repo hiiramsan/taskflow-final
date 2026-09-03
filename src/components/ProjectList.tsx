@@ -28,7 +28,7 @@ export function ProjectList({ projects, loading, error }: ProjectListProps) {
   }
 
   if (projects.length === 0) {
-    return <Typography color="text.secondary">No hay proyectos.</Typography>
+    return <Typography color="text.secondary">No projects.</Typography>
   }
 
   return (

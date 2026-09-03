@@ -1,14 +1,6 @@
-import Alert from '@mui/material/Alert'
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Paper from '@mui/material/Paper'
-import Stack from '@mui/material/Stack'
-import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import { API_URL } from '../types'
 
 export function LoginPage() {
   const { login } = useAuth()
@@ -34,44 +26,53 @@ export function LoginPage() {
   }
 
   return (
-    <Box maxWidth={480} mx="auto" mt={8}>
-      <Typography variant="h4" gutterBottom>
-        JWT Auth Demo
-      </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-        Fase 1 — servicio + hook + pantalla de login.
-      </Typography>
+    <main className='flex min-h-screen w-full items-start justify-center p-20'>
+      <div className='w-full max-w-xl'>
+        <div className='mb-10'>
+          <p className='font-mono text-gray-600'>TASKFLOW API</p>
+          <h1 className='font-geist text-6xl font-semibold'>Login<span className='text-lime-500'>.</span></h1>
+          <p className='mt-4 max-w-md text-gray-600'>Sign in to manage your projects and tasks.</p>
+        </div>
 
-      <Paper sx={{ p: 3 }}>
-        <form onSubmit={handleSubmit}>
-          <Stack spacing={2}>
-            {error && <Alert severity="error">{error}</Alert>}
+        <form onSubmit={handleSubmit} className='border-t border-gray-500 pt-8'>
+          <div className='flex flex-col gap-6'>
+            {error && (
+              <p role='alert' className='border border-red-400 bg-red-50 px-4 py-3 text-sm text-red-700'>
+                {error}
+              </p>
+            )}
 
-            <Alert severity="info" variant="outlined">
-              API: <strong>{API_URL}</strong>
-            </Alert>
+            <label className='flex flex-col gap-2 font-mono text-sm text-gray-600'>
+              Usuario
+              <input
+                className='border border-gray-400 bg-white px-3 py-3 font-sans text-base text-gray-900 outline-none transition focus:border-gray-900'
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                autoComplete='username'
+              />
+            </label>
 
-            <TextField
-              label="Usuario"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              fullWidth
-              autoComplete="username"
-            />
-            <TextField
-              label="Contraseña"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              fullWidth
-              autoComplete="current-password"
-            />
-            <Button type="submit" variant="contained" disabled={loading}>
-              {loading ? 'Entrando…' : 'Iniciar sesión'}
-            </Button>
-          </Stack>
+            <label className='flex flex-col gap-2 font-mono text-sm text-gray-600'>
+              Contraseña
+              <input
+                className='border border-gray-400 bg-white px-3 py-3 font-sans text-base text-gray-900 outline-none transition focus:border-gray-900'
+                type='password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete='current-password'
+              />
+            </label>
+
+            <button
+              type='submit'
+              disabled={loading}
+              className='border border-gray-900 bg-gray-900 px-4 py-3 font-mono text-white transition hover:bg-lime-500 hover:text-gray-900 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer'
+            >
+              {loading ? 'Loggin in...' : 'Log In'}
+            </button>
+          </div>
         </form>
-      </Paper>
-    </Box>
+      </div>
+    </main>
   )
 }

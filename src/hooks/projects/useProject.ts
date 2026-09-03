@@ -1,11 +1,16 @@
-import { useEffect, useState } from "react";
-import { getProjectById } from "../services/projectService";
-import type { Project } from "../types";
+import { useCallback, useEffect, useState } from "react";
+import { getProjectById } from "../../services/projectService";
+import type { Project } from "../../types";
 
 export function useProject(id: number | null) {
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const [reloadKey, setReloadKey] = useState(0);
+
+  const refetch = useCallback(() => {
+    setReloadKey((key) => key + 1);
+  }, []);
 
   useEffect(() => {
     if (id === null) return;
@@ -38,11 +43,12 @@ export function useProject(id: number | null) {
     return () => {
       cancelled = true;
     };
-  }, [id]);
+  }, [id, reloadKey]);
 
   return {
     project,
     loading,
     error,
+    refetch,
   };
 }

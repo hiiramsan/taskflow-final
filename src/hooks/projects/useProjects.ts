@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
-import { getProjects } from '../services/projectService'
-import type { Project } from '../types'
+import { getProjects } from '../../services/projectService'
+import type { Project } from '../../types'
 
 interface UseProjectsResult {
   projects: Project[]
