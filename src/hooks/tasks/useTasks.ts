@@ -6,7 +6,11 @@ interface UseTasksResult {
     tasks: Task[],
     loading: boolean,
     error: string | null
-    refetch: () => void
+    refetch: () => void,
+    addTask: (task: Task) => void,
+    replaceTask: (temporaryId: number, task: Task) => void,
+    removeTask: (taskId: number) => void,
+    updateTaskStatus: (taskId: number, status: Task['status']) => void,
 }
 
 export function useTasks(projectId: number | null): UseTasksResult {
@@ -18,6 +22,22 @@ export function useTasks(projectId: number | null): UseTasksResult {
     const refetch = useCallback(() => {
         setReloadKey((key) => key + 1)
     }, []);
+
+    const addTask = useCallback((task: Task) => {
+        setTasks((current) => [task, ...current])
+    }, [])
+
+    const replaceTask = useCallback((temporaryId: number, task: Task) => {
+        setTasks((current) => current.map((item) => item.id === temporaryId ? task : item))
+    }, [])
+
+    const removeTask = useCallback((taskId: number) => {
+        setTasks((current) => current.filter((item) => item.id !== taskId))
+    }, [])
+
+    const updateTaskStatus = useCallback((taskId: number, status: Task['status']) => {
+        setTasks((current) => current.map((item) => item.id === taskId ? { ...item, status } : item))
+    }, [])
 
     useEffect(() => {
         let cancelled = false
@@ -43,6 +63,6 @@ export function useTasks(projectId: number | null): UseTasksResult {
 
     }, [reloadKey])
 
-    return { tasks, loading, error, refetch }
+    return { tasks, loading, error, refetch, addTask, replaceTask, removeTask, updateTaskStatus }
 
 }

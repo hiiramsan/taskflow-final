@@ -7,7 +7,8 @@ import { useUpdateTaskStatus } from "../hooks/tasks/useUpdateTaskStatus";
 
 interface TaskCardProps {
     task: Task;
-    onStatusUpdated?: () => void;
+    onStatusChange?: (taskId: number, status: Task['status']) => void;
+    onStatusRollback?: (taskId: number, status: Task['status']) => void;
     onClick?: () => void;
 }
 
@@ -29,11 +30,14 @@ const priorityStyles = {
     },
 }
 
-const TaskCard = ({ task, onStatusUpdated, onClick }: TaskCardProps) => {
+const TaskCard = ({ task, onStatusChange, onStatusRollback, onClick }: TaskCardProps) => {
 
     const { updating, error, changeStatus } = useUpdateTaskStatus({
         taskId: task.id,
-        onSuccess: () => onStatusUpdated?.(),
+        currentStatus: task.status,
+        assigneeId: task.assigneeId,
+        onOptimisticUpdate: (status) => onStatusChange?.(task.id, status),
+        onRollback: (status) => onStatusRollback?.(task.id, status),
     });
 
     const handleStatusChange = async (newStatus: Task["status"]) => {

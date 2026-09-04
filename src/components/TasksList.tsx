@@ -3,11 +3,12 @@ import TaskCard from "./TaskCard";
 
 interface TasksListProps {
   filteredTasks: Task[];
-  onStatusUpdated?: () => void;
+  onStatusChange?: (taskId: number, status: Task['status']) => void;
+  onStatusRollback?: (taskId: number, status: Task['status']) => void;
   onTaskClick?: (task: Task) => void;
 }
 
-export default function TasksList({ filteredTasks, onStatusUpdated, onTaskClick }: TasksListProps) {
+export default function TasksList({ filteredTasks, onStatusChange, onStatusRollback, onTaskClick }: TasksListProps) {
   return (
     <section className="grid grid-cols-3 divide-x divide-gray-400">
       {/* Seccion TODO */}
@@ -20,7 +21,7 @@ export default function TasksList({ filteredTasks, onStatusUpdated, onTaskClick 
           {filteredTasks
             .filter((task) => task.status === "TODO")
             .map((task) => (
-              <TaskCard key={task.id} task={task} onStatusUpdated={onStatusUpdated} onClick={() => onTaskClick?.(task)} />
+              <TaskCard key={task.id} task={task} onStatusChange={onStatusChange} onStatusRollback={onStatusRollback} onClick={() => onTaskClick?.(task)} />
             ))}
         </div>
       </div>
@@ -35,7 +36,7 @@ export default function TasksList({ filteredTasks, onStatusUpdated, onTaskClick 
           {filteredTasks
             .filter((task) => task.status === "IN_PROGRESS")
             .map((task) => (
-              <TaskCard key={task.id} task={task} onStatusUpdated={onStatusUpdated} onClick={() => onTaskClick?.(task)} />
+              <TaskCard key={task.id} task={task} onStatusChange={onStatusChange} onStatusRollback={onStatusRollback} onClick={() => onTaskClick?.(task)} />
             ))}
         </div>
       </div>
@@ -50,7 +51,7 @@ export default function TasksList({ filteredTasks, onStatusUpdated, onTaskClick 
           {filteredTasks
             .filter((task) => task.status === "DONE")
             .map((task) => (
-              <TaskCard key={task.id} task={task} onStatusUpdated={onStatusUpdated} onClick={() => onTaskClick?.(task)} />
+              <TaskCard key={task.id} task={task} onStatusChange={onStatusChange} onStatusRollback={onStatusRollback} onClick={() => onTaskClick?.(task)} />
             ))}
         </div>
       </div>

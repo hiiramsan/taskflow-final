@@ -41,7 +41,7 @@ const ProjectPage = () => {
     onSuccess: () => navigate('/dashboard'),
   });
 
-  const { tasks, loading: tasksLoading, error: tasksError, refetch } = useTasks(validId);
+  const { tasks, loading: tasksLoading, error: tasksError, refetch, addTask, replaceTask, removeTask, updateTaskStatus } = useTasks(validId);
   const [taskFormOpen, setTaskFormOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('ALL');
@@ -50,10 +50,12 @@ const ProjectPage = () => {
 
   const taskForm = useCreateTask({
     projectId: validId,
-    onSuccess: () => {
+    onOptimisticAdd: addTask,
+    onSuccess: (createdTask, optimisticTaskId) => {
+      replaceTask(optimisticTaskId, createdTask);
       setTaskFormOpen(false);
-      refetch();
     },
+    onRollback: removeTask,
   });
 
   if (projectLoading) return <div className="flex min-h-screen items-center justify-center"><LoaderCircle className="animate-spin text-gray-600" size={32} aria-label="Loading project" /></div>
@@ -115,7 +117,8 @@ const ProjectPage = () => {
 
       <TasksList
         filteredTasks={filteredTasks}
-        onStatusUpdated={refetch}
+        onStatusChange={updateTaskStatus}
+        onStatusRollback={updateTaskStatus}
         onTaskClick={setSelectedTask}
       />
 

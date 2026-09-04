@@ -1,13 +1,15 @@
 import { useState } from 'react'
-import type { NewTask } from '../../types'
+import type { NewTask, Task } from '../../types'
 import { createProjectTask } from '../../services/taskService'
 
 interface UseCreateTaskOptions {
   projectId: number | null
-  onSuccess?: () => void
+  onOptimisticAdd?: (task: Task) => void
+  onSuccess?: (task: Task, optimisticTaskId: number) => void
+  onRollback?: (taskId: number) => void
 }
 
-export function useCreateTask({ projectId, onSuccess }: UseCreateTaskOptions) {
+export function useCreateTask({ projectId, onOptimisticAdd, onSuccess, onRollback }: UseCreateTaskOptions) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [priority, setPriority] = useState<NewTask['priority']>('MED')
@@ -35,8 +37,20 @@ export function useCreateTask({ projectId, onSuccess }: UseCreateTaskOptions) {
     setSubmitting(true)
     setError(null)
 
+    const optimisticTask: Task = {
+      id: -Date.now(),
+      title: title.trim(),
+      description: description.trim() || undefined,
+      priority,
+      status: 'TODO',
+      projectId,
+      assigneeId: assigneeId === '' ? undefined : Number(assigneeId),
+      dueDate: dueDate || undefined,
+    }
+    onOptimisticAdd?.(optimisticTask)
+
     try {
-      await createProjectTask({
+      const createdTask = await createProjectTask({
         title: title.trim(),
         description: description.trim() || undefined,
         priority,
@@ -44,8 +58,9 @@ export function useCreateTask({ projectId, onSuccess }: UseCreateTaskOptions) {
         dueDate: dueDate || undefined,
       }, projectId)
       reset()
-      onSuccess?.()
+      onSuccess?.(createdTask, optimisticTask.id)
     } catch (err) {
+      onRollback?.(optimisticTask.id)
       setError(err instanceof Error ? err.message : 'Error al crear la tarea')
     } finally {
       setSubmitting(false)
