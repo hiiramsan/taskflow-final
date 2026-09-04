@@ -34,10 +34,8 @@ export default function TaskViewModal({ task, onClose, onSaved, onDeleted }: Tas
   });
   const taskStatus = useUpdateTaskStatus({
     taskId: viewedTask.id,
-    onSuccess: () => {
-      refetch();
-      onSaved?.();
-    },
+    currentStatus: viewedTask.status,
+    assigneeId: viewedTask.assigneeId,
   });
   const taskDelete = useDeleteTask({
     taskId: viewedTask.id,
@@ -67,7 +65,11 @@ export default function TaskViewModal({ task, onClose, onSaved, onDeleted }: Tas
   );
 
   async function handleStatusChange(status: "todo" | "in-progress" | "done") {
-    await taskStatus.changeStatus(toTaskStatus(status));
+    const updated = await taskStatus.changeStatus(toTaskStatus(status));
+    if (updated) {
+      refetch();
+      onSaved?.();
+    }
   }
 
   return (

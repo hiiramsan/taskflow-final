@@ -58,10 +58,14 @@ const ProjectPage = () => {
     onRollback: removeTask,
   });
 
-  if (projectLoading) return <div className="flex min-h-screen items-center justify-center"><LoaderCircle className="animate-spin text-gray-600" size={32} aria-label="Loading project" /></div>
+  if (projectLoading) return <div className="flex min-h-screen items-center justify-center">
+    <LoaderCircle className="animate-spin text-gray-600" size={32} aria-label="Loading project" />
+  </div>
   if (projectError) return <p>Failed to fetch project</p>
   if (!project) return <p>Project not found lol</p>
-  if (tasksLoading) return <div className="flex min-h-screen items-center justify-center"><LoaderCircle className="animate-spin text-gray-600" size={32} aria-label="Loading tasks" /></div>;
+  if (tasksLoading) return <div className="flex min-h-screen items-center justify-center">
+    <LoaderCircle className="animate-spin text-gray-600" size={32} aria-label="Loading tasks" />
+  </div>;
   if (tasksError) return <p>Failed to fetch tasks</p>;
 
   const filteredTasks = tasks.filter((task) => {

@@ -40,8 +40,15 @@ export function DashboardPage() {
       {formOpen && <ProjectForm {...projectForm} onClose={() => setFormOpen(false)} />}
 
       <div className='grid grid-cols-1 gap-6 border-t border-gray-500 py-10 sm:grid-cols-2 lg:grid-cols-3'>
-        {loading && <div className='col-span-full flex min-h-48 items-center justify-center'><LoaderCircle className='animate-spin text-gray-600' size={32} aria-label='Loading projects' /></div>}
-        {error && <p role='alert' className='border border-red-400 bg-red-50 px-4 py-3 text-sm text-red-700'>{error}</p>}
+        {loading &&
+          <div className='col-span-full flex min-h-48 items-center justify-center'>
+            <LoaderCircle className='animate-spin text-gray-600' size={32} aria-label='Loading projects' />
+          </div>}
+        {error &&
+          <p role='alert' className='border border-red-400 bg-red-50 px-4 py-3 text-sm text-red-700'>
+            {error}
+          </p>
+        }
         {!loading && !error && projects.map((project) => (
           <ProjectCard
             key={project.id}
