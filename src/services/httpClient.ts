@@ -15,6 +15,17 @@ httpClient.interceptors.request.use((config) => {
   return config
 })
 
+httpClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
+      localStorage.removeItem(TOKEN_KEY)
+      window.dispatchEvent(new Event('auth-expired'))
+    }
+    return Promise.reject(error)
+  },
+)
+
 export function getApiErrorMessage(err: unknown): string {
   if (axios.isAxiosError(err)) {
     if (err.response?.status === 401) {

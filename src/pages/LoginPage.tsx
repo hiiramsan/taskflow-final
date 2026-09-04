@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
 export function LoginPage() {
@@ -28,13 +29,13 @@ export function LoginPage() {
   return (
     <main className='flex min-h-screen w-full items-start justify-center p-20'>
       <div className='w-full max-w-xl'>
-        <div className='mb-10'>
+        <div className='mb-2'>
           <p className='font-mono text-gray-600'>TASKFLOW API</p>
-          <h1 className='font-geist text-6xl font-semibold'>Login<span className='text-lime-500'>.</span></h1>
-          <p className='mt-4 max-w-md text-gray-600'>Sign in to manage your projects and tasks.</p>
+          <h1 className='font-geist text-4xl font-semibold'>Login</h1>
+          <p className='mt-2 max-w-md text-gray-600'>Sign in to manage your projects and tasks.</p>
         </div>
 
-        <form onSubmit={handleSubmit} className='border-t border-gray-500 pt-8'>
+        <form onSubmit={handleSubmit} className='border-t border-gray-500 pt-4'>
           <div className='flex flex-col gap-6'>
             {error && (
               <p role='alert' className='border border-red-400 bg-red-50 px-4 py-3 text-sm text-red-700'>
@@ -70,6 +71,13 @@ export function LoginPage() {
             >
               {loading ? 'Loggin in...' : 'Log In'}
             </button>
+
+            <p className='text-center font-mono text-sm text-gray-600'>
+              Dont have an account?{' '}
+              <Link to='/register' className='text-gray-900 underline decoration-lime-500 decoration-2 underline-offset-4 hover:text-lime-700'>
+                Register
+              </Link>
+            </p>
           </div>
         </form>
       </div>

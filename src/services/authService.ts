@@ -21,3 +21,11 @@ export async function login(username: string, password: string): Promise<string>
   )
   return data.token
 }
+
+export async function register(username: string, email: string, password: string): Promise<string> {
+  const { data } = await axios.post<{ token: string }>(
+    `${getApiBaseUrl()}/auth/register`,
+    { username: username.trim(), email, password },
+  )
+  return data.token
+}

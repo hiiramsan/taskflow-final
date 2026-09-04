@@ -4,7 +4,7 @@ import { useProject } from "../hooks/projects/useProject";
 import { useUpdateProject } from "../hooks/projects/useUpdateProject";
 import { useDeleteProject } from "../hooks/projects/useDeleteProject";
 import { useTasks } from "../hooks/tasks/useTasks";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import TasksList from "../components/TasksList";
 import TaskViewModal from "../components/TaskViewModal";
@@ -56,10 +56,10 @@ const ProjectPage = () => {
     },
   });
 
-  if (projectLoading) return <p>Loading...</p>
+  if (projectLoading) return <div className="flex min-h-screen items-center justify-center"><LoaderCircle className="animate-spin text-gray-600" size={32} aria-label="Loading project" /></div>
   if (projectError) return <p>Failed to fetch project</p>
   if (!project) return <p>Project not found lol</p>
-  if (tasksLoading) return <p>Loading tasks...</p>;
+  if (tasksLoading) return <div className="flex min-h-screen items-center justify-center"><LoaderCircle className="animate-spin text-gray-600" size={32} aria-label="Loading tasks" /></div>;
   if (tasksError) return <p>Failed to fetch tasks</p>;
 
   const filteredTasks = tasks.filter((task) => {
