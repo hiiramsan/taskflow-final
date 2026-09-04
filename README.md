@@ -1,32 +1,42 @@
-# React + TypeScript + Vite
+# Taskflow
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Taskflow is a simple task-management frontend built with React, TypeScript, Vite, and Material UI. It connects to the Taskflow API to organize work into projects and tasks.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Register and sign in to an account
+- Create, update, and delete projects
+- Create, update, and delete tasks
+- Set task status: To do, In progress, or Done
+- Set task priority and due dates
+- Search tasks and filter them by status or priority
 
-## React Compiler
+## Getting started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Requirements: Node.js and a running Taskflow API.
 
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Open the local URL shown by Vite, usually `http://localhost:5173`.
+
+The API URL is configured in `src/types.ts`. Update it if your API is running somewhere other than the configured default.
+
+## Basic manual
+
+1. Create an account or sign in.
+2. From the dashboard, select **New Project** and enter the project details.
+3. Open a project and select **New task** to add work.
+4. Use the status selector on a task to track progress.
+5. Search by task name or use the status and priority filters to narrow the list.
+6. Select a task to edit or delete it. Project actions are available at the top of the project page.
+
+## Useful commands
+
+```bash
+npm run build   # Type-check and create a production build
+npm run lint    # Run Oxlint
+npm run preview # Preview the production build
+```
