@@ -62,7 +62,7 @@ const ProjectPage = () => {
     <LoaderCircle className="animate-spin text-gray-600" size={32} aria-label="Loading project" />
   </div>
   if (projectError) return <p>Failed to fetch project</p>
-  if (!project) return <p>Project not found lol</p>
+  if (!project) return <p>Project Not Found</p>
   if (tasksLoading) return <div className="flex min-h-screen items-center justify-center">
     <LoaderCircle className="animate-spin text-gray-600" size={32} aria-label="Loading tasks" />
   </div>;

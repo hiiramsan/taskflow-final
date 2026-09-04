@@ -3,7 +3,6 @@ import { httpClient } from "./httpClient";
 
 export async function getTasks(projectId: number | null): Promise<Task[]> {
     const response = await httpClient.get<Task[]>(`/projects/${projectId}/tasks`)
-    console.log("Tasks API response:", response.data);
     return response.data;
 }
 

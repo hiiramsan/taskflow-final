@@ -44,6 +44,14 @@ export function useTasks(projectId: number | null): UseTasksResult {
         setLoading(true);
         setError(null)
 
+        if (projectId === null) {
+            setTasks([])
+            setLoading(false)
+            return () => {
+                cancelled = true
+            }
+        }
+
         getTasks(projectId)
             .then((data) => {
                 if (!cancelled) setTasks(data)
@@ -61,7 +69,7 @@ export function useTasks(projectId: number | null): UseTasksResult {
             cancelled = true
         }
 
-    }, [reloadKey])
+    }, [projectId, reloadKey])
 
     return { tasks, loading, error, refetch, addTask, replaceTask, removeTask, updateTaskStatus }
 
