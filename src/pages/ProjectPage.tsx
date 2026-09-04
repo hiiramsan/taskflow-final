@@ -17,6 +17,7 @@ import TasksOptionsBar, {
 import { useCreateTask } from "../hooks/tasks/useCreateTask";
 import { ProjectForm } from "../components/ProjectForm";
 import type { Task } from "../types";
+import { filterTasks } from "../utils/filterTasks";
 
 const ProjectPage = () => {
 
@@ -68,12 +69,7 @@ const ProjectPage = () => {
   </div>;
   if (tasksError) return <p>Failed to fetch tasks</p>;
 
-  const filteredTasks = tasks.filter((task) => {
-    const matchesName = task.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'ALL' || task.status === statusFilter;
-    const matchesPriority = priorityFilter === 'ALL' || task.priority === priorityFilter;
-    return matchesName && matchesStatus && matchesPriority;
-  });
+  const filteredTasks = filterTasks(tasks, searchTerm, statusFilter, priorityFilter);
 
   return (
     <main className="flex flex-col min-h-screen w-full p-20 gap-4">

@@ -103,7 +103,7 @@ export function ProjectForm({
               disabled={!valid || submitting}
               className='cursor-pointer border border-gray-900 bg-gray-900 px-4 py-3 font-mono text-white transition hover:bg-lime-500 hover:text-gray-900 disabled:cursor-not-allowed disabled:opacity-60'
             >
-              {submitting ? 'Guardando...' : submitLabel ?? 'Crear proyecto'}
+              {submitting ? 'Saving...' : submitLabel ?? 'Save project'}
             </button>
           </div>
         </form>
